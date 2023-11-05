@@ -1,0 +1,100 @@
+import java.util.Scanner;
+
+public class AppointmentApp {
+    // Maximum number of client accounts
+    static final int MAX_ACCOUNTS = 10;
+
+    // Arrays to store client account information
+    static String[] clientEmails = {
+        "j.salgado8930@student.nu.edu",
+        "c.delarosa1104@student.nu.edu",
+        "r.ganzon5183@student.nu.edu"
+    };
+
+    static String[] clientPasswords = {
+        "8930",
+        "1104",
+        "5183"
+    };
+
+    // Function to display the menu
+    public static void displayMenu() {
+        System.out.println("1. Sign in");
+        System.out.println("2. Create new account");
+    }
+
+    // Function for user sign-in
+    public static void signIn() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your email address: ");
+        String email = scanner.nextLine();
+        System.out.print("Enter your password: ");
+        String password = scanner.nextLine();
+
+        boolean isLoginSuccessful = false;
+
+        for (int i = 0; i < clientEmails.length; i++) {
+            if (email.equals(clientEmails[i]) && password.equals(clientPasswords[i])) {
+                System.out.println("Login Successful");
+                isLoginSuccessful = true;
+                break;
+            }
+        }
+
+        if (!isLoginSuccessful) {
+            System.out.println("Login Unsuccessful");
+        }
+    }
+
+    // Function to create a new account
+    public static void createAccount() {
+        if (clientEmails.length >= MAX_ACCOUNTS) {
+            System.out.println("Cannot add more accounts. Limit reached.");
+            return;
+        }
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter new email address: ");
+        String newEmail = scanner.nextLine();
+        System.out.print("Enter a password: ");
+        String newPassword = scanner.nextLine();
+
+        // Check if the email already exists
+        boolean emailExists = false;
+        for (String email : clientEmails) {
+            if (email.equals(newEmail)) {
+                emailExists = true;
+                break;
+            }
+        }
+
+        if (emailExists) {
+            System.out.println("An account with this email already exists.");
+        } else {
+            clientEmails[clientEmails.length] = newEmail;
+            clientPasswords[clientPasswords.length] = newPassword;
+            System.out.println("Account created successfully.");
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            displayMenu();
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    signIn();
+                    return; // End the process after successful login
+                case 2:
+                    createAccount();
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please select a valid option.");
+            }
+        }
+    }
+}
